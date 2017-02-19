@@ -18,6 +18,7 @@ class Datatables
 	private $CI;
 	private $searchable = array();
 	private $js_options = '';
+	private $style 		= '';
 
 	/**
 	 * Load the necessary library from codeigniter and caching the query
@@ -28,6 +29,7 @@ class Datatables
 		$this->CI =& get_instance();
 
 		$this->CI->load->database();
+		$this->CI->load->helper('url');
 		$this->CI->load->library('table');
 
 		$this->query_builder = $this->CI->db;
@@ -43,10 +45,15 @@ class Datatables
      */
 	public function datatable($id)
 	{
-		$this->CI->table->set_template(array(
-			'table_open' => "<table id='$id' border='0' cellpadding='4' cellspacing='0'>"
-		));
 		$this->id = $id;
+		return $this;
+	}
+
+	public function style($data)
+	{
+		foreach ($data as $option => $value) {
+			$this->style .= "$option=\"$value\"";
+		}
 
 		return $this;
 	}
@@ -82,6 +89,9 @@ class Datatables
 			exit;
 		}
 
+		$this->CI->table->set_template(array(
+			'table_open' => "<table id=\"$this->id\" $this->style>"
+		));
 		$this->CI->table->set_heading($this->table_heading);
 
 		$this->CI->datatables->id 		= $this->id;
