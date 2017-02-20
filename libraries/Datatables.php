@@ -7,7 +7,7 @@
   *
   * @package    CodeIgniter
   * @subpackage libraries
-  * @version    1.0 (development)
+  * @version    0.4 (development)
   *
   * @author     Izal Fathoni (izal.fat23@gmail.com)
   */
@@ -18,7 +18,7 @@ class Datatables
 	private $searchable 	= array();
 	private $js_options 	= '';
 	private $style 			= '';
-	private $connection 	= 'default';
+	private $connection 	= 'sitasidb';
 
 	/**
 	 * Load the necessary library from codeigniter and caching the query
@@ -41,6 +41,11 @@ class Datatables
 	{
 		$this->_db->stop_cache();
 		$this->_db->flush_cache();
+	}
+
+	public function connect($db)
+	{
+		$this->connection = $db;
 	}
 
     /**
@@ -204,6 +209,19 @@ class Datatables
 			$this->_db->where("CONCAT($this->searchable) LIKE ('%$search%')");
 		}
 
+		/** ---------------------------------------------------------------------- */
+		/** Count records in database */
+		/** ---------------------------------------------------------------------- */
+
+		$total = $this->_db->count_all_results();
+
+		$output['query_count'] 	= $this->_db->last_query();
+		$output['recordsTotal'] = $output['recordsFiltered'] = $total;
+
+		/** ---------------------------------------------------------------------- */
+		/** Generate JSON */
+		/** ---------------------------------------------------------------------- */
+
 		$this->_db->limit($length, $start);
 		$this->_db->order_by($this->columns[$order_by][1], $order_dir);
 
@@ -221,15 +239,6 @@ class Datatables
 			}
 			$output['data'][] = $arr;
 		}
-
-		/** ---------------------------------------------------------------------- */
-		/** Count records in database for datatables */
-		/** ---------------------------------------------------------------------- */
-
-		$total = $this->_db->count_all_results();
-
-		$output['query_count'] 	= $this->_db->last_query();
-		$output['recordsTotal'] = $output['recordsFiltered'] = $total;
 
 		echo json_encode($output);
 	}
