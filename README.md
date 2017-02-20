@@ -101,6 +101,14 @@ $t->datatable('employees_table')
 $t->init();
 ```
 
+## Custom searchable column
+
+
+```php
+$t->datatable('employees_table')
+    ->searchable('first_name, age'); 	// table columns
+```
+
 ## Datatable Options
 
 DataTables and its extensions are extremely configurable libraries and almost every aspect of the enhancements they make to HTML tables can be customised.
