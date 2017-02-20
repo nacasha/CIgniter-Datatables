@@ -37,21 +37,21 @@ CodeIgniter library for Datatables server-side processing / AJAX, easy to use :3
 
 Use CodeIgniter Query Builder Class/Active Record to build SQL query. [Read Query Builder Documentation](https://www.codeigniter.com/userguide3/database/query_builder.html)
 
-Create new object Datatables
+Create new object Datatables.
 
 ```php
 $t = new Datatables;
 // or use $this->datatables
 ```
 
-Select columns and table
+Select columns and table. NOTE : Don't use `->get()` or other method for executing the query, let the library do for you.
 
 ```php
 $t->query_builder
 	->select('first_name, last_name, age, salary')->from('employees');
 ```
 
-Use `column()` to add column to datatables
+Use `column()` to add column to datatables.
 
 ```php
 $t->datatable('employees_table') // table's id
@@ -127,9 +127,9 @@ $t->datatable('employees_table')
 
 DataTables and its extensions are extremely configurable libraries and almost every aspect of the enhancements they make to HTML tables can be customised.
 
-You can use `set_options` add the options 
+You can use `set_options` add the options. 
 
-Note : Second parameter will not produce single quote, wrap option value to produce single quotes or use escaping
+Note : Second parameter will not produce single quote, wrap option value with double quotes to produce single quotes or use escaping.
 ```php
 $t->datatable('employees_table')
 	->set_options('searching', 'false')			// searching : false
