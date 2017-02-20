@@ -1,6 +1,20 @@
 # CIgniter-Datatables
 CodeIgniter library for Datatables server-side processing / AJAX, easy to use :3
 
+## Features ##
+1. Easy to use.
+2. Generates Datatable and JSON for server side processing in just one controller.
+3. Use CodeIgniter Query Builder Class to produce query (support all functions). [Read Documentation](https://www.codeigniter.com/userguide3/database/query_builder.html)
+4. Support columns rendering/formatting.
+5. Able to define searchable table columns.
+6. Configurable datatables options. [Read Documentation](https://datatables.net/reference/option/)
+
+## Wiki
+1. [Basic Usage](https://github.com/izalfat23/CIgniter-Datatables/wiki/Basic-Usage)
+
+
+
+
 ## Installing
 
 * jQuery
