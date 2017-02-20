@@ -18,7 +18,7 @@ class Datatables
 	private $searchable 	= array();
 	private $js_options 	= '';
 	private $style 			= '';
-	private $connection 	= 'sitasidb';
+	private $connection 	= 'default';
 
 	/**
 	 * Load the necessary library from codeigniter and caching the query
