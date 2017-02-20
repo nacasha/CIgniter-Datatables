@@ -17,7 +17,7 @@ class Datatables
 	private $CI;
 	private $searchable 	= array();
 	private $js_options 	= '';
-	private $style 			= '';
+	private $style 		= '';
 	private $connection 	= 'default';
 
 	/**
