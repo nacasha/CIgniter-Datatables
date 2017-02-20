@@ -126,6 +126,17 @@ You can use array too ...
 ));
 ```
 
+## Styling Tables
+
+You can use `style` to add table tag attributes to styling your table.
+
+```
+$t->datatable('employees_table')
+	->style(array(
+		'class' => 'table table-bordered table-striped',
+	))
+```
+
 ## Changelog
 
 <b>Version 1.0</b>
