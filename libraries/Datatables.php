@@ -7,18 +7,18 @@
   *
   * @package    CodeIgniter
   * @subpackage libraries
-  * @version    0.4 (development)
+  * @version    1.0 (development)
   *
   * @author     Izal Fathoni (izal.fat23@gmail.com)
-  * @link       http://ellislab.com/forums/viewthread/160896/
   */
 class Datatables
 {
 
 	private $CI;
-	private $searchable = array();
-	private $js_options = '';
-	private $style 		= '';
+	private $searchable 	= array();
+	private $js_options 	= '';
+	private $style 			= '';
+	private $connection 	= 'default';
 
 	/**
 	 * Load the necessary library from codeigniter and caching the query
@@ -28,13 +28,19 @@ class Datatables
 	{
 		$this->CI =& get_instance();
 
-		$this->CI->load->database();
+		$this->_db = $this->CI->load->database($this->connection, TRUE);
 		$this->CI->load->helper('url');
 		$this->CI->load->library('table');
 
-		$this->query_builder = $this->CI->db;
+		$this->query_builder = $this->_db;
 
-		$this->CI->db->start_cache();
+		$this->_db->start_cache();
+	}
+
+	public function __destruct()
+	{
+		$this->_db->stop_cache();
+		$this->_db->flush_cache();
 	}
 
     /**
@@ -195,14 +201,14 @@ class Datatables
 		}
 
 		if($search != "") {
-			$this->CI->db->where("CONCAT($this->searchable) LIKE ('%$search%')");
+			$this->_db->where("CONCAT($this->searchable) LIKE ('%$search%')");
 		}
 
-		$this->CI->db->limit($length, $start);
-		$this->CI->db->order_by($this->columns[$order_by][1], $order_dir);
+		$this->_db->limit($length, $start);
+		$this->_db->order_by($this->columns[$order_by][1], $order_dir);
 
-		$result 			= $this->CI->db->get()->result_array();
-		$output['query'] 	=  $this->CI->db->last_query();
+		$result 			= $this->_db->get()->result_array();
+		$output['query'] 	=  $this->_db->last_query();
 
 		foreach ($result as $row) {
 			$arr = array();
@@ -220,9 +226,9 @@ class Datatables
 		/** Count records in database for datatables */
 		/** ---------------------------------------------------------------------- */
 
-		$total = $this->CI->db->count_all_results();
+		$total = $this->_db->count_all_results();
 
-		$output['query_count'] 	= $this->CI->db->last_query();
+		$output['query_count'] 	= $this->_db->last_query();
 		$output['recordsTotal'] = $output['recordsFiltered'] = $total;
 
 		echo json_encode($output);
