@@ -32,6 +32,31 @@ CodeIgniter library for Datatables server-side processing / AJAX, easy to use :3
 * CIgniter Datatables Library
 
 	Download and place to your codeigniter libraries folder
+	
+## Example
+
+Controllers
+
+```php
+$t = new Datatables;
+$t->query_builder
+	->select('first_name, last_name, age, salary')->from('employees');
+
+$t->datatable('employees_table') // table's id for html
+    ->column('First Name', 'first_name')
+    ->column('Last Name', 'last_name')
+    ->column('Age Name', 'age')
+    ->column('Salary', 'title');
+
+$t->init();
+```
+
+Views
+
+```
+$this->datatables->generate();
+$this->datatables->jquery();
+```
 
 ## Usage
 
@@ -68,31 +93,6 @@ $t->init();
 ```
 
 Generate table in views
-
-```
-$this->datatables->generate();
-$this->datatables->jquery();
-```
-
-## Example
-
-Controllers
-
-```php
-$t = new Datatables;
-$t->query_builder
-	->select('first_name, last_name, age, salary')->from('employees');
-
-$t->datatable('employees_table') // table's id
-    ->column('First Name', 'first_name')
-    ->column('Last Name', 'last_name')
-    ->column('Age Name', 'age')
-    ->column('Salary', 'title');
-
-$t->init();
-```
-
-Views
 
 ```
 $this->datatables->generate();
