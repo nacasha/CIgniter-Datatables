@@ -39,8 +39,7 @@ Controllers
 
 ```php
 $t = new Datatables;
-$t->query_builder
-	->select('first_name, last_name, age, salary')->from('employees');
+$t->select('first_name, last_name, age, salary')->from('employees');
 
 $t->datatable('employees_table') // table's id for html
     ->column('First Name', 'first_name')
@@ -72,8 +71,7 @@ $t = new Datatables;
 Select columns and table. NOTE : Don't use `->get()` or other method for executing the query, let the library do for you.
 
 ```php
-$t->query_builder
-	->select('first_name, last_name, age, salary')->from('employees');
+$t->select('first_name, last_name, age, salary')->from('employees');
 ```
 
 Use `column()` to add column to datatables.
@@ -160,6 +158,11 @@ $t->datatable('employees_table')
 ```
 
 ## Changelog
+
+<b>Version 1.1</b>
+	
+* Fix searching when use alias for columns
+* Remove query_builder, use direct `select()` to build query
 
 <b>Version 1.0</b>
 	
