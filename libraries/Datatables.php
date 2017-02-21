@@ -2,14 +2,14 @@
 
   /**
   * CIgniter DataTables
-  *
   * CodeIgniter library for Datatables server-side processing / AJAX, easy to use :3
   *
   * @package    CodeIgniter
   * @subpackage libraries
-  * @version    0.4 (development)
+  * @version    1.1 (development)
   *
   * @author     Izal Fathoni (izal.fat23@gmail.com)
+  * @link 		https://github.com/izalfat23/CIgniter-Datatables
   */
 class Datatables
 {
@@ -18,7 +18,7 @@ class Datatables
 	private $searchable 	= array();
 	private $js_options 	= '';
 	private $style 			= '';
-	private $connection 	= 'default';
+	private $connection 	= 'sitasidb';
 
 	/**
 	 * Load the necessary library from codeigniter and caching the query
@@ -43,9 +43,17 @@ class Datatables
 		$this->_db->flush_cache();
 	}
 
-	public function connect($db)
+	/**
+	 * Select column want to fetch from database
+	 *
+	 * @param  string
+	 * @return object
+	 */
+	public function select($columns)
 	{
-		$this->connection = $db;
+		$this->_db->select($columns);
+		$this->searchable = $columns;
+		return $this->_db;
 	}
 
     /**
@@ -81,10 +89,6 @@ class Datatables
 	{
 		$this->table_heading[] 		= $label;
 		$this->columns[] 			= array($label, $source, $function);
-
-		if(!is_string($this->searchable)) {
-			$this->searchable[$source]	= $source;
-		}
 
 		return $this;
 	}
@@ -200,6 +204,15 @@ class Datatables
 		$search		= $_REQUEST['search']["value"];
 
 		$output['data'] 	= array();
+
+		$column = explode(',', $this->searchable);
+		$this->searchable = array();
+		foreach($column as $key => $col) {
+			$col = strtolower($col);
+			$col = str_replace(' ', '', $col);
+			$col = strstr($col, 'as', true) ?: $col;
+			$this->searchable[] = $col;
+		}
 
 		if(is_array($this->searchable)) {
 			$this->searchable = implode(',', $this->searchable);
