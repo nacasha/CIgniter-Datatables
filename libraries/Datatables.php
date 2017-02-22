@@ -18,7 +18,7 @@ class Datatables
 	private $searchable 	= array();
 	private $js_options 	= '';
 	private $style 			= '';
-	private $connection 	= 'sitasidb';
+	private $connection 	= 'default';
 
 	/**
 	 * Load the necessary library from codeigniter and caching the query
@@ -52,7 +52,16 @@ class Datatables
 	public function select($columns)
 	{
 		$this->_db->select($columns);
+
 		$this->searchable = $columns;
+		return $this;
+	}
+
+	public function from($table)
+	{
+		$this->_db->from($table);
+
+		$this->table = $table;
 		return $this->_db;
 	}
 
@@ -205,8 +214,14 @@ class Datatables
 
 		$output['data'] 	= array();
 
+		if($this->searchable == '*') {
+			$field = $this->_db->list_fields($this->table);
+			$this->searchable = implode(',', $field);
+		}
+
 		$column = explode(',', $this->searchable);
 		$this->searchable = array();
+
 		foreach($column as $key => $col) {
 			$col = strtolower($col);
 			$col = str_replace(' ', '', $col);
