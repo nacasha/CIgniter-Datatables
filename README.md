@@ -54,6 +54,8 @@ Views
 
 ```
 $this->datatables->generate();
+
+// Add this line after you load jquery from code.jquery.com
 $this->datatables->jquery();
 ```
 
