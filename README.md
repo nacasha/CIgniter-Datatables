@@ -4,6 +4,7 @@ CodeIgniter library for Datatables server-side processing / AJAX, easy to use :3
 ## Features ##
 1. Easy to use.
 2. Generates Datatable and JSON for server side processing in just one controller.
+3. Multiple Datatables in one page.
 3. Use CodeIgniter Query Builder Class to produce query (support all functions). [Read Documentation](https://www.codeigniter.com/userguide3/database/query_builder.html)
 4. Support columns rendering/formatting.
 5. Able to define searchable table columns.
@@ -33,84 +34,88 @@ CodeIgniter library for Datatables server-side processing / AJAX, easy to use :3
 
 	Download and place to your codeigniter libraries folder
 	
-## Example
+## Basic Example
 
 Controllers
 
 ```php
-$t = new Datatables;
-$t->select('first_name, last_name, age, salary')->from('employees');
+$this->load->library('Datatables');
 
-$t->datatable('employees_table') // table's id for html
+$dt_authors = $this->datatables->new();
+
+$dt_authors->select('*')->from('authors');
+
+$dt_authors
+    ->style(array(
+	'class' => 'table table-striped table-bordered',
+    ))
     ->column('First Name', 'first_name')
     ->column('Last Name', 'last_name')
-    ->column('Age Name', 'age')
-    ->column('Salary', 'title');
+    ->column('Email', 'email');
 
-$t->init();
+$this->datatables->init('dt_authors', $dt_authors); 
 ```
 
 Views
 
 ```
-$this->datatables->generate();
+$this->datatables->generate('dt_authors');
 
 // Add this line after you load jquery from code.jquery.com
-$this->datatables->jquery();
+$this->datatables->jquery('dt_authors');
 ```
 
 ## Usage
 
 Use CodeIgniter Query Builder Class/Active Record to build SQL query. [Read Query Builder Documentation](https://www.codeigniter.com/userguide3/database/query_builder.html)
 
-Create new object Datatables.
+Create new variable to create new Datatables.
 
 ```php
-$t = new Datatables;
-// or use $this->datatables
+$dt_authors = $this->datatables->new();
 ```
 
 Select columns and table. NOTE : Don't use `->get()` or other method for executing the query, let the library do for you.
 
 ```php
-$t->select('first_name, last_name, age, salary')->from('employees');
+$dt_authors->select('first_name, last_name, email')->from('authors');
 ```
 
 Use `column()` to add column to datatables.
 
 ```php
-$t->datatable('employees_table') // table's id
+$dt_authors
     ->column('First Name', 'first_name')
     ->column('Last Name', 'last_name')
-    ->column('Age Name', 'age')
-    ->column('Salary', 'title');
+    ->column('Email', 'email');
 ```
 
 Initialize the configurations
 
 ```
-$t->init();
+$this->datatables->init('dt_authors', $dt_authors);
 ```
 
 Generate table in views
 
 ```
-$this->datatables->generate();
-$this->datatables->jquery();
+$this->datatables->generate('dt_authors);
+$this->datatables->jquery('dt_authors);
 ```
 
 ## Column Rendering/Formatting
 
 
 ```php
-$t->datatable('employees_table')
+// $dt_authors is an example 
+$dt_authors
     ->column('Name', 'name', function($data, $row){
     	return $row['first_name'] .' '. $row['last_name'];
     })
-    ->column('Age', 'age')
-    ->column('Salary', 'salary', function($data, $row){
-		return 'Rp. '. $data;
-    });
+    ->column('Age', 'age', function($data, $row){
+		return $data . ' years old';
+    })
+    ->column('Email', 'salary');
 
 $t->init();
 ```
@@ -119,8 +124,10 @@ $t->init();
 
 
 ```php
-$t->datatable('employees_table')
+// $dt_authors is an example 
+$dt_authors
     ->searchable('first_name, age'); 	// table columns
+    // -> ... other chain methods
 ```
 
 ## Datatable Options
@@ -131,9 +138,10 @@ You can use `set_options` add the options.
 
 Note : Second parameter will not produce single quote, wrap option value with double quotes to produce single quotes or use escaping.
 ```php
-$t->datatable('employees_table')
-	->set_options('searching', 'false')			// searching : false
-	->set_options('pagingType', '\'simple\'')		// pagingType : 'simple'
+// $dt_authors is an example 
+$dt_authors
+    ->set_options('searching', 'false')			// searching : false
+    ->set_options('pagingType', '\'simple\'')		// pagingType : 'simple'
   //->set_options('pagingType', "'simple'")
     ->set_options('lengthMenu', '[ 10, 25, 50, 75, 100 ]')	 // lengthMenu : [ 10, 25, 50, 75, 100 ]
 ```
@@ -153,13 +161,20 @@ You can use array too ...
 You can use `style` to add table tag attributes to styling your table.
 
 ```
-$t->datatable('employees_table')
-	->style(array(
-		'class' => 'table table-bordered table-striped',
-	))
+// $dt_authors is an example 
+$dt_authors
+    ->style(array(
+        'class' => 'table table-bordered table-striped',
+    ))
 ```
 
 ## Changelog
+
+<b>Version 1.5</b>
+	
+* Add new API to override ajax data
+* Support multiple datatables in one page
+* Fix unable to search on field contains null
 
 <b>Version 1.1</b>
 	
