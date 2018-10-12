@@ -156,6 +156,9 @@ You can use array too ...
 ));
 ```
 
+Use `set_options('ajax.data', '...')` to override ajax data options
+
+
 ## Styling Tables
 
 You can use `style` to add table tag attributes to styling your table.
