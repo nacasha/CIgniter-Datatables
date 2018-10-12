@@ -6,7 +6,7 @@
   *
   * @package    CodeIgniter
   * @subpackage libraries
-  * @version    1.2
+  * @version    1.5
   *
   * @author     Izal Fathoni (izal.fat23@gmail.com)
   * @link 		https://github.com/nacasha/CIgniter-Datatables
