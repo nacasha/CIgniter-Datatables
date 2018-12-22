@@ -159,6 +159,17 @@ You can use array too ...
 Use `set_options('ajax.data', '...')` to override ajax data options
 
 
+### Show paginatin in top and bottom of Datatables
+This is workaround incase you want to show pagination in both top and bottom of Datatables.
+I will create new API with the other changes when it ready.
+
+Go to DatatablesBuilder.php and search for '$output' at line 176 and add this lines ([#7](https://github.com/nacasha/CIgniter-Datatables/issues/7))
+```
+    \"pagingType\": \"full_numbers\",
+    \"sDom\": '<\"top\"lfprtip><\"bottom\"><\"clear\">',
+```
+
+
 ## Styling Tables
 
 You can use `style` to add table tag attributes to styling your table.
