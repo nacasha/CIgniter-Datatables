@@ -17,12 +17,12 @@ class Datatables
 {
 	protected $datatables = array();
 
-	public function new()
+	public function init()
 	{
 		return new DatatablesBuilder();
 	}
-	
-	public function init($dt_name, $source) 
+
+	public function create($dt_name, $source)
 	{
 		$source->init($dt_name);
 

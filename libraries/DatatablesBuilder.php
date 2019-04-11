@@ -18,7 +18,7 @@ class DatatablesBuilder
     private $searchable 	= array();
     private $style 			= '';
 	private $connection 	= 'default';
-	
+
 	private $dt_options		= array(
 		'searchDelay' 	=> '500',
 		'autoWidth' 	=> 'false'
@@ -143,7 +143,7 @@ class DatatablesBuilder
 
         return $this;
 	}
-	
+
 	/**
      * Generate the datatables table (lol)
      *
@@ -246,9 +246,11 @@ class DatatablesBuilder
 
         /** ---------------------------------------------------------------------- */
         /** Generate JSON */
-        /** ---------------------------------------------------------------------- */
+		/** ---------------------------------------------------------------------- */
 
-        $this->_db->limit($length, $start);
+		if ($length != -1) {
+			$this->_db->limit($length, $start);
+		}
         $this->_db->order_by($this->columns[$order_by][1], $order_dir);
 
         $result 			= $this->_db->get()->result_array();
