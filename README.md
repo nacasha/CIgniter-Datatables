@@ -1,6 +1,19 @@
 # CIgniter-Datatables
 CodeIgniter library for Datatables server-side processing / AJAX, easy to use :3
 
+## Important changes
+Commit : [870b1caadbf9a2756b513c1e58fe5f153086b399](https://github.com/nacasha/CIgniter-Datatables/commit/a83eeabcfd28fe99f45c942b0795736f9b7c540d)
+
+Change basic API to create Datatables  
+
+- Old : `$this->datatables->new();`
+- **New : `$this->datatables->init();`**
+
+Change API to init created datatables config
+
+- Old : `$this->datatables->init();`
+- **New : `$this->datatables->create();`**
+
 ## Features ##
 1. Easy to use.
 2. Generates Datatable and JSON for server side processing in just one controller.
@@ -41,7 +54,7 @@ Controllers
 ```php
 $this->load->library('Datatables');
 
-$dt_authors = $this->datatables->new();
+$dt_authors = $this->datatables->init();
 
 $dt_authors->select('*')->from('authors');
 
@@ -53,7 +66,7 @@ $dt_authors
     ->column('Last Name', 'last_name')
     ->column('Email', 'email');
 
-$this->datatables->init('dt_authors', $dt_authors); 
+$this->datatables->create('dt_authors', $dt_authors); 
 ```
 
 Views
@@ -69,10 +82,10 @@ $this->datatables->jquery('dt_authors');
 
 Use CodeIgniter Query Builder Class/Active Record to build SQL query. [Read Query Builder Documentation](https://www.codeigniter.com/userguide3/database/query_builder.html)
 
-Create new variable to create new Datatables.
+Create new variable to create initialize Datatables.
 
 ```php
-$dt_authors = $this->datatables->new();
+$dt_authors = $this->datatables->init();
 ```
 
 Select columns and table. NOTE : Don't use `->get()` or other method for executing the query, let the library do for you.
@@ -90,10 +103,10 @@ $dt_authors
     ->column('Email', 'email');
 ```
 
-Initialize the configurations
+Create datatables instance using created configurations ($dt_authors) and provide unique name ('dt_authors')
 
 ```
-$this->datatables->init('dt_authors', $dt_authors);
+$this->datatables->create('dt_authors', $dt_authors);
 ```
 
 Generate table in views
@@ -117,7 +130,7 @@ $dt_authors
     })
     ->column('Email', 'salary');
 
-$t->init();
+$t->create();
 ```
 
 ## Custom searchable column
