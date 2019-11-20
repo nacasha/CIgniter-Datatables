@@ -67,6 +67,22 @@ class DatatablesBuilder
         $this->table = $table;
         return $this->_db;
     }
+	
+    public function where($data,$table)
+    {
+        $this->_db->where($data);
+
+        $this->table = $table;
+        return $this->_db;
+    }
+	
+    public function like($data,$table)
+    {
+        $this->_db->like($data);
+
+        $this->table = $table;
+        return $this->_db;
+    }
 
     public function style($data)
     {
